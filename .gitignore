@@ -1,7 +1,11 @@
+# Editors
 .idea/
 .vscode/
 
+# Java
 *.iml
 build/
 .gradle/
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
 /out/

@@ -8,9 +8,5 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: monumental_trees
-
-  adminer:
-    image: adminer
-    restart: always
     ports:
-      - 8080:8080
+      - 5432:5432

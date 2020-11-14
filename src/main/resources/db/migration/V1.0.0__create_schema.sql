@@ -63,5 +63,7 @@ CREATE TABLE IF NOT EXISTS public.monumental_tree (
     average_group_circumference double precision,
     max_group_circumference double precision,
     decree character varying(1024),
-    additional_decree character varying(1024)
+    additional_decree character varying(1024),
+    created_at timestamp with time zone DEFAULT now(),
+    updated_at timestamp with time zone DEFAULT now()
 );

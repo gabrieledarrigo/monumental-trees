@@ -1,5 +1,8 @@
 package darrigo.gabriele.monumental.trees.entity
 
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
+import java.time.OffsetDateTime
 import javax.persistence.*
 
 @Entity
@@ -82,6 +85,14 @@ class MonumentalTree(
 
         @Column(name = "additional_decree")
         var additionalDecree: String? = null,
+
+        @CreatedDate
+        @Column(name = "created_at")
+        var createdAt: OffsetDateTime = OffsetDateTime.now(),
+
+        @LastModifiedDate
+        @Column(name = "updated_at")
+        var updatedAt: OffsetDateTime = OffsetDateTime.now()
 )
 
 

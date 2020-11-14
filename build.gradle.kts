@@ -39,7 +39,11 @@ dependencies {
 	implementation("org.flywaydb:flyway-core:7.2.0")
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.testcontainers:testcontainers:1.15.0")
+	testImplementation("org.testcontainers:junit-jupiter:1.15.0")
+	testImplementation("org.testcontainers:postgresql:1.15.0")
 }
 
 tasks.withType<Test> {

@@ -2,15 +2,15 @@ package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.WithPostgreSQL
 import darrigo.gabriele.monumental.trees.entity.Status
+import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
-import org.hamcrest.Matchers.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,33 +21,36 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldReturnAPaginatedListOfMonumentalTrees() {
         mockMvc.perform(get("/monumental-trees"))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content", notNullValue()))
-                .andExpect(jsonPath("$.content[0].id", equalTo(1)))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.content", notNullValue()))
+            .andExpect(jsonPath("$.content[0].id", equalTo(1)))
     }
 
     @Test
     fun shouldReturnAMonumentalTreeByItsUniqueId() {
         mockMvc.perform(get("/monumental-trees/1"))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", equalTo(1)))
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id", equalTo(1)))
     }
 
     @Test
     fun shouldReturn404IfAMonumentalTreeCannotBeFound() {
-        mockMvc.perform(get("/monumental-trees/12345")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound)
+        mockMvc.perform(
+            get("/monumental-trees/12345")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isNotFound)
     }
 
     @Test
     fun shouldCreateANewMonumentalTree() {
-        mockMvc.perform(post("/monumental-trees")
+        mockMvc.perform(
+            post("/monumental-trees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
-                        """
+                    """
                     {
                     	"status": "ISCRITTO_IN_ELENCO",
                     	"pointId": "077/A235/CH/13",
@@ -67,20 +70,22 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
                     	"height": 12.0,
                     	"circumference": 200.0
                     }
-                """.trimIndent()))
-                .andExpect(status().isCreated)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.pointId", equalTo("077/A235/CH/13")))
-
+                """.trimIndent()
+                )
+        )
+            .andExpect(status().isCreated)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id", notNullValue()))
+            .andExpect(jsonPath("$.pointId", equalTo("077/A235/CH/13")))
     }
 
     @Test
     fun shouldReturn400IfAMonumentalTreeHasInvalidValues() {
-        mockMvc.perform(post("/monumental-trees")
+        mockMvc.perform(
+            post("/monumental-trees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
-                        """
+                    """
                     {
                     	"status": "ISCRITTO_IN_ELENCO",
                     	"pointId": "${"Z".repeat(513)}",
@@ -100,15 +105,19 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
                     	"height": 12.0,
                     	"circumference": 200.0
                     }
-                """.trimIndent()))
-                .andExpect(status().isBadRequest)
+                """.trimIndent()
+                )
+        )
+            .andExpect(status().isBadRequest)
     }
 
     @Test
     fun shouldUpdateAnExistingMonumentalTree() {
-        mockMvc.perform(put("/monumental-trees/1")
+        mockMvc.perform(
+            put("/monumental-trees/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
+                .content(
+                    """
                     {
                     	"status": "${Status.RIMOSSO_PER_ABBATTIMENTO}",
                     	"pointId": "001/A235/CH/13",
@@ -128,18 +137,22 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
                     	"height": 12.0,
                     	"circumference": 200.0
                     }
-                """.trimIndent()))
-                .andExpect(status().isOk)
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", equalTo(1)))
-                .andExpect(jsonPath("$.status", equalTo(Status.RIMOSSO_PER_ABBATTIMENTO.name)))
+                """.trimIndent()
+                )
+        )
+            .andExpect(status().isOk)
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.id", equalTo(1)))
+            .andExpect(jsonPath("$.status", equalTo(Status.RIMOSSO_PER_ABBATTIMENTO.name)))
     }
 
     @Test
     fun shouldReturn404IfTheMonumentalTreeToUpdateDoesNotExists() {
-        mockMvc.perform(put("/monumental-trees/12345")
+        mockMvc.perform(
+            put("/monumental-trees/12345")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
+                .content(
+                    """
                     {
                     	"status": "${Status.RIMOSSO_PER_ABBATTIMENTO}",
                     	"pointId": "001/A235/CH/13",
@@ -159,7 +172,9 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
                     	"height": 12.0,
                     	"circumference": 200.0
                     }
-                """.trimIndent()))
-                .andExpect(status().isNotFound)
+                """.trimIndent()
+                )
+        )
+            .andExpect(status().isNotFound)
     }
 }

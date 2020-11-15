@@ -2,15 +2,21 @@ package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.WithPostgreSQL
 import darrigo.gabriele.monumental.trees.entity.Status
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.notNullValue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -176,5 +182,11 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
                 )
         )
             .andExpect(status().isNotFound)
+    }
+
+    @Test
+    fun shouldDeleteAMonumentalTree() {
+        mockMvc.perform(delete("/monumental-trees/1"))
+            .andExpect(status().isOk)
     }
 }

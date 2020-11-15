@@ -2,11 +2,20 @@ package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.entity.MonumentalTree
 import darrigo.gabriele.monumental.trees.repository.MonumentalTreesRepository
-import org.springframework.data.domain.*
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import javax.validation.Valid
 
@@ -47,5 +56,10 @@ class MonumentalTreeController(
                     }
                 )
             }
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable("id") id: Int) {
+        return repository.deleteById(id)
     }
 }

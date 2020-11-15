@@ -2,18 +2,34 @@ package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.entity.MonumentalTree
 import darrigo.gabriele.monumental.trees.repository.MonumentalTreesRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.data.domain.*
+import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
-@RequestMapping("/monumental-trees")
+@RequestMapping("/monumental-trees", produces = [MediaType.APPLICATION_JSON_VALUE])
 class MonumentalTreeController(
         private val repository: MonumentalTreesRepository
 ) {
     @GetMapping
     fun getAll(pageable: Pageable): Page<MonumentalTree> {
         return repository.findAll(pageable)
+    }
+
+    @GetMapping("/{id}")
+    fun getById(@PathVariable("id") id: Int): MonumentalTree {
+        return repository.findById(id)
+                .orElseThrow {
+                    ResponseStatusException(NOT_FOUND, "Monumental tree with id $id cannot be found")
+                }
+    }
+
+    @PostMapping
+    @ResponseStatus(CREATED)
+    fun create(@RequestBody monumentalTree: MonumentalTree): MonumentalTree {
+        return repository.save(monumentalTree)
     }
 }

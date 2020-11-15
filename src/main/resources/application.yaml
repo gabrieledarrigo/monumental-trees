@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/monumental_trees
+    url: jdbc:postgresql://localhost:5432/monumental_trees?stringtype=unspecified
     username: user
     password: password
     initialization-mode: always

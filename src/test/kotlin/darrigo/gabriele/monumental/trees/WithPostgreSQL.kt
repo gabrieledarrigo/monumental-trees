@@ -19,6 +19,7 @@ internal abstract class WithPostgreSQL {
         @Container
         val container = PostgreSQLContainer<Nothing>(DockerImageName.parse("postgres")).apply {
             withDatabaseName("monumental_trees_test")
+            withUrlParam("stringtype", "unspecified")
             withUsername(USERNAME)
             withPassword(PASSWORD)
             withExposedPorts(PORT)

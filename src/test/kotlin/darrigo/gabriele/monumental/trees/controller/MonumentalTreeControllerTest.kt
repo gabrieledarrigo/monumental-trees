@@ -72,6 +72,7 @@ internal class MonumentalTreeControllerTest: WithPostgreSQL() {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", notNullValue()))
                 .andExpect(jsonPath("$.pointId", equalTo("077/A235/CH/13")))
+
     }
 
     @Test

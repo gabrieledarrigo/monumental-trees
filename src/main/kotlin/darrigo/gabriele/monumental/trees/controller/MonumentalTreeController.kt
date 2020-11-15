@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/monumental-trees", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -29,7 +30,7 @@ class MonumentalTreeController(
 
     @PostMapping
     @ResponseStatus(CREATED)
-    fun create(@RequestBody monumentalTree: MonumentalTree): MonumentalTree {
+    fun create(@Valid @RequestBody monumentalTree: MonumentalTree): MonumentalTree {
         return repository.save(monumentalTree)
     }
 }

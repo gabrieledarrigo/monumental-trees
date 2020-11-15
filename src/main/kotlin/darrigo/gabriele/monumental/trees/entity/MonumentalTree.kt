@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.OffsetDateTime
 import javax.persistence.*
+import javax.validation.constraints.Max
 
 @Entity
 @Table(name = "monumental_tree")
@@ -16,23 +17,39 @@ class MonumentalTree(
         var status: Status,
 
         @Column(name = "point_id", unique = true)
+        @field:Max(255)
         var pointId: String,
 
         @Enumerated(EnumType.STRING)
         var typology: Typology,
+
+        @field:Max(512)
         var region: String,
+
+        @field:Max(512)
         var province: String,
+
+        @field:Max(1024)
         var locality: String,
+
+        @field:Max(1024)
         var place: String,
+
         var latitude: Double,
+
         var longitude: Double,
+
         var altitude: Double,
+
+        @field:Max(1024)
         var genre: String,
 
         @Column(name = "scientific_name")
+        @field:Max(1024)
         var scientificName: String,
 
         @Column(name = "common_name")
+        @field:Max(1024)
         var commonName: String,
 
         @Enumerated(EnumType.STRING)
@@ -67,7 +84,9 @@ class MonumentalTree(
 
         @Column(name = "historical_criteria")
         var historicalCriteria: Boolean = false,
+
         var height: Double? = null,
+
         var circumference: Double? = null,
 
         @Column(name = "average_group_height")
@@ -81,9 +100,12 @@ class MonumentalTree(
 
         @Column(name = "max_group_circumference")
         var maxGroupCircumference: Double? = null,
+
+        @field:Max(1024)
         var decree: String? = null,
 
         @Column(name = "additional_decree")
+        @field:Max(1024)
         var additionalDecree: String? = null,
 
         @CreatedDate

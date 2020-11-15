@@ -1,20 +1,20 @@
 package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.WithPostgreSQL
+import darrigo.gabriele.monumental.trees.entity.Status
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.hamcrest.Matchers.*
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 
 @SpringBootTest
 @AutoConfigureMockMvc
-internal class MonumentalTreeControllerTest: WithPostgreSQL() {
+internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
@@ -47,7 +47,7 @@ internal class MonumentalTreeControllerTest: WithPostgreSQL() {
         mockMvc.perform(post("/monumental-trees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
-                """
+                        """
                     {
                     	"status": "ISCRITTO_IN_ELENCO",
                     	"pointId": "077/A235/CH/13",
@@ -102,5 +102,64 @@ internal class MonumentalTreeControllerTest: WithPostgreSQL() {
                     }
                 """.trimIndent()))
                 .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun shouldUpdateAnExistingMonumentalTree() {
+        mockMvc.perform(put("/monumental-trees/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                    	"status": "${Status.RIMOSSO_PER_ABBATTIMENTO}",
+                    	"pointId": "001/A235/CH/13",
+                    	"typology": "ALBERO_SINGOLO",
+                    	"region": "Abruzzo",
+                    	"province": "Chieti",
+                    	"locality": "Altino",
+                    	"place": "LE MACCHIE ARTICCIARO",
+                    	"latitude": 42.08723,
+                    	"longitude": 14.34305,
+                    	"altitude": 215.0,
+                    	"genre": "Juniperus",
+                    	"scientificName": "Juniperus oxycedrus L.",
+                    	"commonName": "Ginepro coccolone",
+                    	"context": "EXTRA_URBANO",
+                    	"ageCriteria": true,
+                    	"height": 12.0,
+                    	"circumference": 200.0
+                    }
+                """.trimIndent()))
+                .andExpect(status().isOk)
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", equalTo(1)))
+                .andExpect(jsonPath("$.status", equalTo(Status.RIMOSSO_PER_ABBATTIMENTO.name)))
+    }
+
+    @Test
+    fun shouldReturn404IfTheMonumentalTreeToUpdateDoesNotExists() {
+        mockMvc.perform(put("/monumental-trees/12345")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                    	"status": "${Status.RIMOSSO_PER_ABBATTIMENTO}",
+                    	"pointId": "001/A235/CH/13",
+                    	"typology": "ALBERO_SINGOLO",
+                    	"region": "Abruzzo",
+                    	"province": "Chieti",
+                    	"locality": "Altino",
+                    	"place": "LE MACCHIE ARTICCIARO",
+                    	"latitude": 42.08723,
+                    	"longitude": 14.34305,
+                    	"altitude": 215.0,
+                    	"genre": "Juniperus",
+                    	"scientificName": "Juniperus oxycedrus L.",
+                    	"commonName": "Ginepro coccolone",
+                    	"context": "EXTRA_URBANO",
+                    	"ageCriteria": true,
+                    	"height": 12.0,
+                    	"circumference": 200.0
+                    }
+                """.trimIndent()))
+                .andExpect(status().isNotFound)
     }
 }

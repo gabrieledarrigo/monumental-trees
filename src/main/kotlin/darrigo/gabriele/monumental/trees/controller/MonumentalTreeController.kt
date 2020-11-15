@@ -33,4 +33,17 @@ class MonumentalTreeController(
     fun create(@Valid @RequestBody monumentalTree: MonumentalTree): MonumentalTree {
         return repository.save(monumentalTree)
     }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable("id") id: Int, @Valid @RequestBody monumentalTree: MonumentalTree): MonumentalTree {
+        return repository.findById(id)
+                .orElseThrow {
+                    ResponseStatusException(NOT_FOUND, "Monumental tree with id $id cannot be found")
+                }
+                .let {
+                    repository.save(monumentalTree.also {
+                        it.id = id
+                    })
+                }
+    }
 }

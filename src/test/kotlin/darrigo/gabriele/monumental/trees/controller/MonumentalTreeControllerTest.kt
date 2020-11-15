@@ -186,7 +186,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
 
     @Test
     fun shouldDeleteAMonumentalTree() {
-        mockMvc.perform(delete("/monumental-trees/1"))
+        mockMvc.perform(delete("/monumental-trees/2"))
             .andExpect(status().isOk)
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NOT_FOUND
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/v1/monumental-trees", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/api/v1/monumental-trees", produces = [APPLICATION_JSON_VALUE])
 @CrossOrigin("*")
 class MonumentalTreeController(
     private val repository: MonumentalTreesRepository
@@ -62,6 +62,12 @@ class MonumentalTreeController(
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Int) {
-        return repository.deleteById(id)
+        repository.findById(id)
+            .orElseThrow {
+                ResponseStatusException(NOT_FOUND, "Monumental tree with id $id cannot be found")
+            }
+            .let {
+                repository.deleteById(id)
+            }
     }
 }

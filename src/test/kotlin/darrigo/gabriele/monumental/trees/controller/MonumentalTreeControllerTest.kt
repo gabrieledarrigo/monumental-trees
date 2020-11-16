@@ -19,14 +19,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Test
     fun shouldReturnAPaginatedListOfMonumentalTrees() {
-        mockMvc.perform(get("/monumental-trees"))
+        mockMvc.perform(get("/api/v1/monumental-trees"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.content", notNullValue()))
@@ -35,7 +35,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
 
     @Test
     fun shouldReturnAMonumentalTreeByItsUniqueId() {
-        mockMvc.perform(get("/monumental-trees/1"))
+        mockMvc.perform(get("/api/v1/monumental-trees/1"))
             .andExpect(status().isOk)
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id", equalTo(1)))
@@ -44,7 +44,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldReturn404IfAMonumentalTreeCannotBeFound() {
         mockMvc.perform(
-            get("/monumental-trees/12345")
+            get("/api/v1/monumental-trees/12345")
                 .accept(MediaType.APPLICATION_JSON)
         )
             .andExpect(status().isNotFound)
@@ -53,7 +53,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldCreateANewMonumentalTree() {
         mockMvc.perform(
-            post("/monumental-trees")
+            post("/api/v1/monumental-trees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -88,7 +88,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldReturn400IfAMonumentalTreeHasInvalidValues() {
         mockMvc.perform(
-            post("/monumental-trees")
+            post("/api/v1/monumental-trees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -120,7 +120,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldUpdateAnExistingMonumentalTree() {
         mockMvc.perform(
-            put("/monumental-trees/1")
+            put("/api/v1/monumental-trees/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -155,7 +155,7 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
     @Test
     fun shouldReturn404IfTheMonumentalTreeToUpdateDoesNotExists() {
         mockMvc.perform(
-            put("/monumental-trees/12345")
+            put("/api/v1/monumental-trees/12345")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """
@@ -186,7 +186,13 @@ internal class MonumentalTreeControllerTest : WithPostgreSQL() {
 
     @Test
     fun shouldDeleteAMonumentalTree() {
-        mockMvc.perform(delete("/monumental-trees/2"))
+        mockMvc.perform(delete("/api/v1/monumental-trees/2"))
             .andExpect(status().isOk)
+    }
+
+    @Test
+    fun shouldReturn404IfTheMonumentalTreeToDeleteDoesNotExists() {
+        mockMvc.perform(delete("/api/v1/monumental-trees/123456"))
+            .andExpect(status().isNotFound)
     }
 }

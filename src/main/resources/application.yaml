@@ -16,6 +16,15 @@ spring:
     locations: classpath:db/migration
     mixed: true
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-2uotfikm.eu.auth0.com/
+
+auth0:
+  audience: https://monumental-trees/
+
 server:
   compression:
     enabled: true

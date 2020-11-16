@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -20,7 +21,8 @@ import org.springframework.web.server.ResponseStatusException
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/monumental-trees", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/api/v1/monumental-trees", produces = [MediaType.APPLICATION_JSON_VALUE])
+@CrossOrigin("*")
 class MonumentalTreeController(
     private val repository: MonumentalTreesRepository
 ) {

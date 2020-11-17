@@ -1,0 +1,13 @@
+<configuration>
+    <property name="projectId" value="${projectId:-${GOOGLE_CLOUD_PROJECT}}"/>
+    <appender name="CONSOLE_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.springframework.cloud.gcp.logging.StackdriverJsonLayout">
+                <projectId>${projectId}</projectId>
+            </layout>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_JSON" />
+    </root>
+</configuration>

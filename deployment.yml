@@ -27,6 +27,16 @@ spec:
               cpu: 100m
             limits:
               cpu: 100m
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health
+            initialDelaySeconds: 10
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health
+            initialDelaySeconds: 10
           env:
             - name: "SPRING_PROFILE_ACTIVE"
               value: ${SPRING_PROFILE_ACTIVE}

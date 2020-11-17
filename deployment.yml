@@ -45,4 +45,4 @@ spec:
             - name: "SPRING_DATASOURCE_USERNAME"
               value: ${SPRING_DATASOURCE_USERNAME}
             - name: "SPRING_DATASOURCE_PASSWORD"
-              value: ${SPRING_DATASOURCE_PASSWORD }
+              value: ${SPRING_DATASOURCE_PASSWORD}

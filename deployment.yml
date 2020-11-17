@@ -31,12 +31,15 @@ spec:
             httpGet:
               port: 8080
               path: /actuator/health
-            initialDelaySeconds: 10
+            initialDelaySeconds: 40
+            failureThreshold: 10
+            periodSeconds: 10
           livenessProbe:
             httpGet:
               port: 8080
               path: /actuator/health
-            initialDelaySeconds: 10
+            initialDelaySeconds: 3
+            periodSeconds: 30
           env:
             - name: "SPRING_PROFILE_ACTIVE"
               value: ${SPRING_PROFILE_ACTIVE}

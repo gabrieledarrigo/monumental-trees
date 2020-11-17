@@ -24,7 +24,6 @@ jobs:
           java-version: 1.11
       - name: Build with Gradle
         run: |-
-          ./gradlew clean
           ./gradlew build
           ./gradlew jar
   release:
@@ -53,7 +52,7 @@ jobs:
       # Build the Docker image
       - name: Build
         run: |-
-          docker build --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+          docker build --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" .
 
       # Push the Docker image to Google Container Registry
       - name: Publish

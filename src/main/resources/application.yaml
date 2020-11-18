@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/monumental_trees?stringtype=unspecified
+    url: jdbc:postgresql://localhost:5432/monumental_trees_database?stringtype=unspecified
     username: user
     password: password
     initialization-mode: always
@@ -12,7 +12,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     locations: classpath:db/migration
-    mixed: true
+    # mixed: true
   security:
     oauth2:
       resourceserver:

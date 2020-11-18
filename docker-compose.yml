@@ -7,6 +7,6 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: monumental_trees
+      POSTGRES_DB: monumental_trees_database
     ports:
       - 5432:5432

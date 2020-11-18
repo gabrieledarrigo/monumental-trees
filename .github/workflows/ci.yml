@@ -77,5 +77,5 @@ jobs:
         run: |-
           sudo apt-get install -y gettext
           envsubst < deployment.yml | kubectl apply -f -
-#          kubectl rollout status deployment/$DEPLOYMENT_NAME
-#          kubectl get services -o wide
+          kubectl rollout status deployment/$DEPLOYMENT_NAME
+          kubectl get services -o wide

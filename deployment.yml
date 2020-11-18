@@ -1,3 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: monumental-trees
+spec:
+  selector:
+    app: monumental-trees
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  type: LoadBalancer
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:

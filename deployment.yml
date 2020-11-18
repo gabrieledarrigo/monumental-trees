@@ -39,14 +39,14 @@ spec:
             - containerPort: 8080
           resources:
             requests:
-              cpu: 0.4
+              cpu: 0.5
             limits:
-              cpu: 0.4
+              cpu: 0.5
           readinessProbe:
             httpGet:
               port: 8080
               path: /actuator/health
-            initialDelaySeconds: 40
+            initialDelaySeconds: 80
             failureThreshold: 10
             periodSeconds: 10
           livenessProbe:

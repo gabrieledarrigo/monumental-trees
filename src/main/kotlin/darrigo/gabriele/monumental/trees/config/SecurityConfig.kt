@@ -22,7 +22,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .mvcMatchers("/actuator/**").permitAll()
+            .mvcMatchers("/actuator/*").permitAll()
             .mvcMatchers("/api/v1/*").authenticated()
             .and().cors()
             .and().oauth2ResourceServer().jwt()

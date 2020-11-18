@@ -1,6 +1,7 @@
 # Editors
 .idea/
 .vscode/
+.DS_Store
 
 # Java
 *.iml

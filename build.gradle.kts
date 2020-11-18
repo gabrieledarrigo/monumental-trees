@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.3.7.BUILD-SNAPSHOT"
+    id("org.springframework.boot") version "2.3.6.RELEASE"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
     id("org.jlleitschuh.gradle.ktlint-idea") version "9.3.0"
@@ -28,7 +28,7 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
-extra["springCloudVersion"] = "Hoxton.BUILD-SNAPSHOT"
+extra["springCloudVersion"] = "Hoxton.SR9"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

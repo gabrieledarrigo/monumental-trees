@@ -25,17 +25,62 @@ To store the data for the API I decided to use a relational database (even if I 
 
 The first issue that I encountered while analyzing the dataset was the language: data are entirely expressed in Italian, and while that's fine to leave the values in their original idiom I was undecided on how to threaten the attributes and the metadata.  
 I prefer to use the English language when I work with information,  data, and their representation, so I decided to translate the attribute's name.  
-Here follows a table that reports, for each attribute, the original Italian name, its English translation, and a meaningful description.
+Here follows a table that reports, for each attribute, the original Italian name, its English translation, and the related data type.  
 
-@TODO Attributes table
+
+| ORIGINAL   ATTRIBUTE | RENAMED ATTRIBUTE           | DATA TYPE |
+|----------------------|-----------------------------|-----------|
+| STATO                | status                      | enum      |
+| ID   PUNTO           | point_id                    | string    |
+| TIPOLOGIA            | typology                    | enum      |
+| REGIONE              | region                      | string    |
+| PROVINCIA            | province                    | string    |
+| COMUNE               | locality                    | string    |
+| LOCALITA'            | place                       | string    |
+| LATITUDINE           | latitude                    | double    |
+| LONGITUDINE          | longitude                   | double    |
+| QUOTA                | altitude                    | double    |
+| GENERE               | genre                       | string    |
+| SPECIE               | scientific_name             | string    |
+| NOME VOLG            | common_name                 | string    |
+| ALTRE SPECIE         | ---                         | string    |
+| CONTESTO             | context                     | enum      |
+| CR ETA'              | age_criteria                | boolean   |
+| CR CIRCONF           | circumference_criteria      | boolean   |
+| CR ALTEZZA           | height_criteria             | boolean   |
+| CR AMPIEZZ           | crown_criteria              | boolean   |
+| CR FM O PO           | shape_criteria              | boolean   |
+| CR VALORE            | ecological_criteria         | boolean   |
+| CR RARITA'           | botanic_criteria            | boolean   |
+| CR ARCHIT            | architecture_criteria       | boolean   |
+| CR PAESAG            | landscape_criteria          | boolean   |
+| CR STORICO           | historical_criteria         | boolean   |
+| AL IS - H            | height                      | double    |
+| AL IS - C            | circumference               | double    |
+| INS - Cmed           | average_group_height        | double    |
+| INS - Hmed           | max_group_height            | double    |
+| INS - Cmax           | average_group_circumference | double    |
+| INS - Hmax           | max_group_circumference     | double    |
+| DECR DI IN           | decree                      | string    |
+| DECR MODIF           | additional_decree           | string    |
+
 
 The second issue was with data format: all numeric values were expressed with a comma character for the decimal separator (for example 42,08723), whilst I need a point to correctly express and persists them as double-precision 64-bit IEEE 754 floating-point number.  
-So `latitude`, `longitude`, `altitude`, `height`, `circumference`, `average_group_height`, `max_group_height`, `average_group_circumference`, `max_group_circumference` were all converted.  
+So the values of the following attributes: `latitude`, `longitude`, `altitude`, `height`, `circumference`, `average_group_height`, `max_group_height`, `average_group_circumference`, `max_group_circumference` were all converted.  
 
-Then it was the time for criteria, all using the Italian words "VERO" and "FALSO" to mean boolean values.  
-I went straight and replaced all occurrences with "true" or "false" instead.  
+Third, the strings representation for `status`, `typology` and `context` were limited to a small set of values;
+Ths gave me the idea to transform transform their values in a format suitable for enum types: all words in uppercase, separated by underscores.  
+For example, `Iscritto in elenco` become `ISCRITTO_IN_ELENCO`, while `Rimosso dall`elenco per abbattimento` is translated into `RIMOSSO_PER_ABBATTIMENTO`, and so on.
+
+Then it was the time for criteria, all using the Italian words `VERO` and `FALSO` to mean boolean values.  
+I went straight and replaced all occurrences with `true` or `false` instead.  
 Finally, I encountered some encoding issues:
 Excel wasn't able to correctly export scientific_name in UTF-8 encoded characters, so I was forced to import the spreadsheet in Google Sheet before the final export in CSV.  
+Both the original Excel Spreadsheet and the reworked one are included in the project:
+
+- [monumental_trees.xlsx](src/main/resources/db/monumental_trees.xlsx)
+- [2020.07_TabellaAMI_vs2020.07.xlsx](src/main/resources/db/2020.07_TabellaAMI_vs2020.07.xlsx)
+
 
 ### Database
 
@@ -192,7 +237,7 @@ A workflow is an automated process that:
 4. Deploy the application  to the Kubernetes cluster
 
 Every time a deployment is _applied_, Kubernetes start a fresh pod with the new version of the application; when the pod is ready the network traffic coming to the cluster is redirected from the pod with the _old_ version of the application to the new one.
-Once all the traffic is forwarded the old pod is destroyed; this entire process is managed by Kubernetes itself.
+Once all the traffic is forwarded the old pod is destroyed; this entire process is managed by Kubernetes itself.  
 
 ![infrastructure](https://user-images.githubusercontent.com/1985555/99822653-c7d77c00-2b53-11eb-98b1-76327db7902b.png)
 

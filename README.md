@@ -1,4 +1,4 @@
-# Italian monumental trees
+# Italian monumental trees API
 
 > A REST API for Italian monumental trees 🌲🌳
 
@@ -6,25 +6,28 @@
 
 ## Foreword
 
-Monumental trees is a project for the Service Oriented Architecture course of ["Sicurezza dei Sistemi e Delle Reti Informatiche"](http://sicurezzaonline.di.unimi.it/) bachelor's degree program. 
+Monumental trees API is a project for the Service Oriented Architecture course of ["Sicurezza dei Sistemi e Delle Reti Informatiche"](http://sicurezzaonline.di.unimi.it/) bachelor's degree program. 
 
 At its heart is a Kotlin REST API application developed with [Spring Boot](https://spring.io/projects/spring-boot).  
-It exposes a single resource, Italian monumental trees, that is eligible trees, by the Italian ["Ministero delle politiche agricole alimentari e forestali"](https://www.politicheagricole.it/) (from now, Mipaaf), to be protected because of their naturalistic, historic, cultural or landscaped values.  
+It exposes a _single_ resource, Italian monumental trees, that are eligible trees, by the Italian ["Ministero delle politiche agricole alimentari e forestali"](https://www.politicheagricole.it/) (from now, Mipaaf), to be protected because of their naturalistic, historic, cultural or landscaped values.  
 
-An authenticated client (more on this in the related section) can interact with monumental trees resources through a uniform REST interface.  
+An authenticated client (more on this in the related section) can interact with monumental trees resources through a uniform HTTP REST interface.  
 
 ## Data
 
 ### Initial dataset
 
-At the end of 2017 Mipaaf published on [its webiste](https://www.politicheagricole.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260) a list of the Italian monumental trees.  
+At the end of 2017 the Mipaaf published on [its webiste](https://www.politicheagricole.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260) a list of the Italian monumental trees.  
 The list is divided by region, but a user can ask for a complete dataset, that consists of an Excel spreadsheet, various Shapefile, and a pdf with various additional metadata.  
-The original spreadsheet's data contains tree data, with each row representing a single tree along with its geographical position, its status, and various criteria used to quantify its eligibility to be monumental.  
+The original spreadsheet's data contains tree data, with each row representing a single tree along with its geographical position, its status, and various _criteria_ used to quantify its eligibility to be monumental.  
 Data is provided under [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/deed.it), so I was allowed to modify and use the original dataset.  
-To store the data for the API I decided to use a relational database (even if I have a single entity) so I started to work around the original spreadsheet to obtain an importable CSV.  
+To store the data for the API I decided to use a relational database (even if I have a single entity), so I started to work around the original spreadsheet to obtain an importable CSV.  
 
-The first issue that I encountered while analyzing the dataset was the language; data are entirely expressed in Italian, and while that's fine to leave the values in their original idiom I was undecided on how to threaten the attributes and the metadata.  
-I prefer to use the English language when I work with information,  data, and their representation, so I decided to translate the attribute's name; here follows a table with the original attribute name, its English translation, and a meaningful description.  
+The first issue that I encountered while analyzing the dataset was the language: data are entirely expressed in Italian, and while that's fine to leave the values in their original idiom I was undecided on how to threaten the attributes and the metadata.  
+I prefer to use the English language when I work with information,  data, and their representation, so I decided to translate the attribute's name.  
+Here follows a table that reports, for each attribute, the original Italian name, its English translation, and a meaningful description.
+
+@TODO Attributes table
 
 The second issue was with data format: all numeric values were expressed with a comma character for the decimal separator (for example 42,08723), whilst I need a point to correctly express and persists them as double-precision 64-bit IEEE 754 floating-point number.  
 So `latitude`, `longitude`, `altitude`, `height`, `circumference`, `average_group_height`, `max_group_height`, `average_group_circumference`, `max_group_circumference` were all converted.  
@@ -195,7 +198,7 @@ Once all the traffic is forwarded the old pod is destroyed; this entire process 
 
 ## Resources
 
-Todo
+@TODO A list of resources
 
 ## License
 

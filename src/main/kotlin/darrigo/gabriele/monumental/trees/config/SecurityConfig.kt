@@ -2,6 +2,7 @@ package darrigo.gabriele.monumental.trees.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -23,6 +24,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
             .mvcMatchers("/actuator/*").permitAll()
+            .mvcMatchers(HttpMethod.GET, "/api/v1/*").permitAll()
             .mvcMatchers("/api/v1/*").authenticated()
             .and().cors()
             .and().oauth2ResourceServer().jwt()

@@ -2,6 +2,11 @@ package darrigo.gabriele.monumental.trees.controller
 
 import darrigo.gabriele.monumental.trees.entity.MonumentalTree
 import darrigo.gabriele.monumental.trees.repository.MonumentalTreesRepository
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus.CREATED
@@ -26,11 +31,25 @@ import javax.validation.Valid
 class MonumentalTreeController(
     private val repository: MonumentalTreesRepository
 ) {
+
+    @Operation(summary = "Returns a paginated list of monumental trees")
     @GetMapping
     fun getAll(pageable: Pageable): Page<MonumentalTree> {
         return repository.findAll(pageable)
     }
 
+    @Operation(summary = "Returns a monumental tree by its unique id")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                content = [
+                    Content(mediaType = "application/json", schema = Schema(implementation = MonumentalTree::class))
+                ]
+            ),
+            ApiResponse(responseCode = "404", description = "Monumental tree with the specified id cannot be found", content = [Content()])
+        ]
+    )
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: Int): MonumentalTree {
         return repository.findById(id)
@@ -39,12 +58,37 @@ class MonumentalTreeController(
             }
     }
 
+    @Operation(summary = "Create a new monumental tree")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "201",
+                content = [
+                    Content(mediaType = "application/json", schema = Schema(implementation = MonumentalTree::class))
+                ]
+            ),
+            ApiResponse(responseCode = "400", description = "The monumental tree payload is invalid", content = [Content()])
+        ]
+    )
     @PostMapping
     @ResponseStatus(CREATED)
     fun create(@Valid @RequestBody monumentalTree: MonumentalTree): MonumentalTree {
         return repository.save(monumentalTree)
     }
 
+    @Operation(summary = "Update an existing monumental tree")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                content = [
+                    Content(mediaType = "application/json", schema = Schema(implementation = MonumentalTree::class))
+                ]
+            ),
+            ApiResponse(responseCode = "400", description = "The monumental tree payload is invalid", content = [Content()]),
+            ApiResponse(responseCode = "404", description = "Monumental tree with the specified id cannot be found", content = [Content()])
+        ]
+    )
     @PutMapping("/{id}")
     fun update(@PathVariable("id") id: Int, @Valid @RequestBody monumentalTree: MonumentalTree): MonumentalTree {
         return repository.findById(id)
@@ -60,6 +104,13 @@ class MonumentalTreeController(
             }
     }
 
+    @Operation(summary = "Delete an existing monumental tree")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", content = [Content()]),
+            ApiResponse(responseCode = "404", description = "Monumental tree with the specified id cannot be found", content = [Content()])
+        ]
+    )
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Int) {
         repository.findById(id)

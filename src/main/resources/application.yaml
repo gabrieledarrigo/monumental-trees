@@ -19,9 +19,18 @@ spring:
         jwt:
           issuer-uri: https://dev-2uotfikm.eu.auth0.com/
 
+springdoc:
+  api-docs:
+    path: /api/v1/monumental-trees/docs
+  swagger-ui:
+    path: /api/v1/monumental-trees/swagger-ui
+
 auth0:
   audience: https://monumental-trees/
 
 server:
   compression:
     enabled: true
+  error:
+    include-message: always
+    include-binding-errors: always

@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.OffsetDateTime
 import javax.persistence.*
+import javax.validation.constraints.Positive
 import javax.validation.constraints.Size
 
 @Entity
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size
 class MonumentalTree(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @field:Positive
     var id: Int? = null,
 
     @Enumerated(EnumType.STRING)

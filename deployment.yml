@@ -39,9 +39,9 @@ spec:
             - containerPort: 8080
           resources:
             requests:
-              cpu: 0.5
+              cpu: 0.6
             limits:
-              cpu: 0.5
+              cpu: 0.6
           readinessProbe:
             httpGet:
               port: 8080

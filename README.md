@@ -17,7 +17,7 @@ An authenticated client (more on this in the related section) can interact with 
 
 ### Initial dataset
 
-At the end of 2017, the Mipaaf published on [its webiste](https://www.politicheagricole.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260) a list of the Italian monumental trees.  
+At the end of 2017, the Mipaaf published on [its website](https://www.politicheagricole.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/11260) a list of the Italian monumental trees.  
 The list is divided by region, but a user can ask for a complete dataset, that consists of an Excel spreadsheet, various Shapefile, and a pdf with various additional metadata.  
 The original spreadsheet's data contains tree data, with each row representing a single tree along with its geographical position, its status, and various _criteria_ used to quantify its eligibility to be monumental.  
 Data is provided under the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/deed.it), so I was allowed to modify and use the original dataset.  
